@@ -1,0 +1,54 @@
+# ---------- dependencies ----------
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ---------- env / secrets ----------
+.env
+.env.*
+!.env.example
+!env/*.example
+*.pem
+
+# ---------- next.js (apps/frontend) ----------
+.next/
+out/
+build/
+.vercel
+next-env.d.ts
+
+# ---------- nestjs (apps/backend) ----------
+dist/
+.nest/
+
+# ---------- testing ----------
+coverage/
+*.lcov
+.nyc_output
+
+# ---------- logs ----------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- supabase ----------
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# ---------- editor / os ----------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# ---------- misc ----------
+*.tsbuildinfo
+.cache/
+.turbo/

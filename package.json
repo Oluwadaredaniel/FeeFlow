@@ -1,0 +1,44 @@
+{
+  "name": "feeflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Automated fee reconciliation infrastructure for Nigerian educational institutions (Nomba Hackathon 2026)",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run build:core && concurrently -n frontend,backend -c blue,green \"npm run dev -w apps/frontend\" \"npm run start:dev -w apps/backend\"",
+    "dev:frontend": "npm run dev -w apps/frontend",
+    "dev:backend": "npm run build:core && npm run start:dev -w apps/backend",
+    "build:core": "npm run build -w @feeflow/core",
+    "build": "npm run build:core && npm run build -w apps/frontend && npm run build -w apps/backend",
+    "test:core": "npm run test -w @feeflow/core",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "postinstall": "npm run build:core || exit 0",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
+    "@supabase/ssr": "^0.12.0",
+    "@supabase/supabase-js": "^2.108.2",
+    "axios": "^1.18.1",
+    "date-fns": "^4.4.0",
+    "framer-motion": "^12.42.0",
+    "lucide-react": "^1.21.0",
+    "react-hook-form": "^7.80.0",
+    "zod": "^4.4.3"
+  }
+}
