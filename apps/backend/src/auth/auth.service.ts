@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import * as cacheManager_1 from 'cache-manager';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { EmailService } from '../common/email/email.service';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,7 @@ export class AuthService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: cacheManager_1.Cache,
     private readonly jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) {
     this.supabase = createClient(
       process.env.SUPABASE_URL || '',
@@ -48,19 +50,17 @@ export class AuthService {
       throw new UnauthorizedException('Identity records matching this email do not exist');
     }
 
-    // 2. Generate a 6-digit numeric string OTP
-    // For local hackathon sandbox testing, we use a static bypass '123456'.
-    // In production, uncomment the crypto line below:
-    // const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const otp = '123456';
+    // For local hackathon sandbox testing, use 123456 as bypass if requested
+    const otp = process.env.NODE_ENV === 'production'
+      ? Math.floor(100000 + Math.random() * 900000).toString()
+      : '123456';
 
     // 3. Stateless Cache Injection: Save to Cloud Redis with a 5-minute TTL window (300 seconds)
     const redisOtpKey = `auth:otp:${formattedEmail}`;
     await this.cacheManager.set(redisOtpKey, otp, 300);
 
-    console.log(`[STATELESS REDIS AUTH] Token cached for ${formattedEmail} -> ${otp}`);
-
-    // TODO: Connect SendGrid API client payload dispatcher here for staging/production
+    // 4. Dispatch Email
+    await this.emailService.sendOtp(formattedEmail, otp);
 
     return {
       success: true,
