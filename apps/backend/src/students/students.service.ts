@@ -153,6 +153,47 @@ export class StudentsService {
     };
   }
 
+  async getFees(orgId: string, id: string) {
+    const { data: student, error } = await this.db.client
+      .from('students')
+      .select(`
+        id,
+        student_fees (
+          id,
+          amount_due,
+          amount_paid,
+          amount_balance,
+          status,
+          due_date,
+          fee_types (name, is_clearance_required)
+        )
+      `)
+      .eq('org_id', orgId)
+      .eq('id', id)
+      .single();
+
+    if (error) throw new BadRequestException(error.message);
+    if (!student) throw new NotFoundException('Student not found');
+
+    const fees = student.student_fees.map((sf: any) => ({
+      id: sf.id,
+      fee_type: sf.fee_types.name,
+      amount_due: sf.amount_due,
+      amount_paid: sf.amount_paid,
+      amount_balance: sf.amount_balance,
+      status: sf.status,
+      is_clearance_required: sf.fee_types.is_clearance_required,
+      due_date: sf.due_date,
+    }));
+
+    return {
+      student_id: student.id,
+      fees,
+      total_owed: fees.reduce((acc: number, f: any) => acc + f.amount_balance, 0),
+      total_paid: fees.reduce((acc: number, f: any) => acc + f.amount_paid, 0),
+    };
+  }
+
   async update(orgId: string, id: string, dto: any, actor: any) {
     // Get old value for audit
     const { data: oldStudent } = await this.db.client

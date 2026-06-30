@@ -4,7 +4,10 @@ import { Response } from 'express';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ReportsService } from './reports.service';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Reports & Analytics')
+@ApiBearerAuth()
 @Controller('api/reports')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Roles('ADMIN', 'SUPER_ADMIN', 'FINANCE_OFFICER')
@@ -12,6 +15,7 @@ export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
   @Get('collection')
+  @ApiOperation({ summary: 'Get revenue collection statistics (JSON or CSV)' })
   async getCollectionReport(
     @Req() req: any,
     @Query() query: any,
@@ -29,6 +33,7 @@ export class ReportsController {
   }
 
   @Get('students')
+  @ApiOperation({ summary: 'Download full student population report as CSV' })
   async getStudentReport(@Req() req: any, @Res() res: Response) {
     const csv = await this.reportsService.getStudentReport(req.user.orgId);
     res.setHeader('Content-Type', 'text/csv');

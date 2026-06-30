@@ -1,9 +1,13 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
+import { AuditService } from '../common/audit/audit.service';
 
 @Injectable()
 export class ClearanceService {
-  constructor(private readonly db: SupabaseService) {}
+  constructor(
+    private readonly db: SupabaseService,
+    private readonly audit: AuditService,
+  ) {}
 
   async getClearanceStatus(orgId: string, studentId: string) {
     const { data: student, error: studentErr } = await this.db.client
@@ -54,7 +58,7 @@ export class ClearanceService {
     return { data };
   }
 
-  async createFeeType(orgId: string, dto: any) {
+  async createFeeType(orgId: string, dto: any, actor: any) {
     const { data, error } = await this.db.client
       .from('fee_types')
       .insert({
@@ -67,6 +71,18 @@ export class ClearanceService {
       .single();
 
     if (error) throw new BadRequestException(error.message);
+
+    // Audit the creation of a new fee type
+    await this.audit.record({
+      orgId,
+      entityType: 'SCHEMA', // Using SCHEMA type for financial structure changes
+      entityId: data.id,
+      action: 'CREATED',
+      newValue: data,
+      actorEmail: actor.email,
+      actorRole: actor.role,
+    });
+
     return data;
   }
 }

@@ -2,7 +2,9 @@ import * as common from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { verifyWebhookSignature } from '@feeflow/core';
+import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
 
+@ApiTags('Webhooks')
 @common.Controller('webhooks')
 export class WebhooksController {
   private readonly logger = new common.Logger(WebhooksController.name);
@@ -13,6 +15,8 @@ export class WebhooksController {
 
   @common.Post('nomba')
   @common.HttpCode(common.HttpStatus.OK)
+  @ApiOperation({ summary: 'Handle incoming Nomba payment webhooks' })
+  @ApiHeader({ name: 'x-nomba-signature', description: 'HMAC-SHA256 signature for security' })
   async handleNombaWebhook(
     @common.Req() req: common.RawBodyRequest<Request>,
     @common.Headers('x-nomba-signature') signature: string,
@@ -28,7 +32,6 @@ export class WebhooksController {
       }
     }
 
-    // Defensive check for payload
     if (!payload || !payload.data) {
       this.logger.error('Received malformed Nomba webhook payload');
       throw new common.BadRequestException('Malformed payload');
@@ -41,12 +44,11 @@ export class WebhooksController {
       throw new common.BadRequestException('Missing required fields');
     }
 
-    // Idempotency: use transactionReference as jobId
     await this.paymentQueue.add(
       'reconcile-job',
       {
         nombaTransactionId: transactionReference,
-        nombaReference: payload.data.transactionReference, // Or another ref if available
+        nombaReference: payload.data.transactionReference,
         amountNaira: Number(amount),
         accountNumber: destinationAccountNumber,
         senderName: senderName || 'Unknown Sender',
