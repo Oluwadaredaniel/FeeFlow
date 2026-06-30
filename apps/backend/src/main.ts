@@ -1,17 +1,28 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  // rawBody:true exposes req.rawBody — REQUIRED for verifying the Nomba webhook
-  // HMAC signature over the exact bytes (re-serializing JSON would break it).
-  const app = await NestFactory.create(AppModule, { rawBody: true });
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true,
+    bufferLogs: true
+  });
+
+  // Use pino-logger for structured logging
+  app.useLogger(app.get(Logger));
 
   app.enableCors();
   app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, transform: true, forbidNonWhitelisted: false }),
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: false
+    }),
   );
 
-  await app.listen(process.env.PORT ?? 3001);
+  const port = process.env.PORT || 3001;
+  await app.listen(port);
+  console.log(`Backend running on: http://localhost:${port}`);
 }
 bootstrap();

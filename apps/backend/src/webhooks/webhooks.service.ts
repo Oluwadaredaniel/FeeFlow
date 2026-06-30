@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseService } from '../supabase/supabase.service';
 
 /** Shape of the job enqueued by WebhooksController. */
 interface ReconcileJobData {
@@ -14,15 +14,8 @@ interface ReconcileJobData {
 @Injectable()
 export class WebhooksService {
   private readonly logger = new Logger(WebhooksService.name);
-  private readonly supabase: SupabaseClient;
 
-  constructor() {
-    this.supabase = createClient(
-      process.env.SUPABASE_URL ?? '',
-      // accept either env name to avoid silent misconfig
-      process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SERVICE_KEY ?? '',
-    );
-  }
+  constructor(private readonly db: SupabaseService) {}
 
   /**
    * Reconcile one incoming payment. Runs inside a BullMQ worker, so throwing
@@ -46,7 +39,7 @@ export class WebhooksService {
     } = data;
 
     // 1. Identity: map destination account -> student/org (the judged identity model).
-    const { data: va, error: vaErr } = await this.supabase
+    const { data: va, error: vaErr } = await this.db.client
       .from('virtual_accounts')
       .select('id, org_id, student_id')
       .eq('account_number', accountNumber)
@@ -80,7 +73,7 @@ export class WebhooksService {
     const amountKobo = Math.round(amountNaira * 100);
 
     // 3. Atomic reconciliation via RPC.
-    const { data: result, error: rpcErr } = await this.supabase.rpc('reconcile_payment', {
+    const { data: result, error: rpcErr } = await this.db.client.rpc('reconcile_payment', {
       p_org_id: va.org_id,
       p_student_id: va.student_id,
       p_virtual_account_id: va.id,
