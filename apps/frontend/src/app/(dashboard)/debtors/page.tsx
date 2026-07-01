@@ -55,7 +55,7 @@ export default function DebtorsPage() {
     {
       header: "Balance",
       accessor: (d: Debtor) => (
-        <span className="font-bold text-red-600">{formatNaira(d.balance)}</span>
+        <span className="font-bold text-red-400">{formatNaira(d.balance)}</span>
       )
     },
     { header: "Status", accessor: (d: Debtor) => <StatusBadge status={d.is_cleared} /> },
@@ -63,11 +63,12 @@ export default function DebtorsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Debtors List</h1>
-          <p className="text-muted-foreground">Students with outstanding balances for the current session</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          Collections risk
         </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">Debtors List</h1>
+        <p className="mt-2 max-w-2xl text-muted-foreground">Students with outstanding balances for the current session.</p>
       </div>
 
       {isLoading ? (

@@ -2,11 +2,11 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
-      <div className="w-full max-w-2xl rounded-xl border bg-white p-10 shadow-sm">
+    <main className="flex min-h-screen items-center justify-center bg-background px-6">
+      <div className="w-full max-w-2xl rounded-xl border bg-card p-10 shadow-sm shadow-black/20">
         <div className="space-y-4">
           <div>
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900">FeeFlow</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">FeeFlow</h1>
             <p className="mt-3 text-base text-muted-foreground">
               Institutional fee management for administrators and students.
             </p>
@@ -20,7 +20,7 @@ export default function Home() {
             </Link>
             <Link
               href="/student-login"
-              className="inline-flex h-11 items-center justify-center rounded-lg border bg-background px-4 text-sm font-medium transition-colors hover:bg-slate-50"
+              className="inline-flex h-11 items-center justify-center rounded-lg border bg-transparent px-4 text-sm font-medium transition-colors hover:bg-muted"
             >
               Student Sign In
             </Link>

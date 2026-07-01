@@ -19,35 +19,35 @@ interface StatusBadgeProps {
 export function StatusBadge({ status }: StatusBadgeProps) {
   if (typeof status === "boolean") {
     return (
-      <Badge variant="outline" className={cn(status ? "bg-green-100 text-green-700 border-green-200" : "bg-red-100 text-red-700 border-red-200")}>
+      <Badge variant="outline" className={cn(status ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-300" : "border-red-500/30 bg-red-500/15 text-red-300")}>
         {status ? "CLEARED" : "NOT CLEARED"}
       </Badge>
     );
   }
 
   const colors: Record<Status, string> = {
-    PAID: "bg-green-100 text-green-700 border-green-200",
-    RECONCILED: "bg-green-100 text-green-700 border-green-200",
-    SUCCESS: "bg-green-100 text-green-700 border-green-200",
-    CLEARED: "bg-green-100 text-green-700 border-green-200",
-    APPROVED: "bg-green-100 text-green-700 border-green-200",
-    PROCESSED: "bg-green-100 text-green-700 border-green-200",
-    ACTIVE: "bg-green-100 text-green-700 border-green-200",
+    PAID: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
+    RECONCILED: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
+    SUCCESS: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
+    CLEARED: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
+    APPROVED: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
+    PROCESSED: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
+    ACTIVE: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
 
-    PARTIALLY_PAID: "bg-amber-100 text-amber-700 border-amber-200",
-    PENDING: "bg-amber-100 text-amber-700 border-amber-200",
-    REQUESTED: "bg-amber-100 text-amber-700 border-amber-200",
-    UNRECONCILED: "bg-amber-100 text-amber-700 border-amber-200",
-    DEFERRED: "bg-amber-100 text-amber-700 border-amber-200",
+    PARTIALLY_PAID: "border-primary/30 bg-primary/15 text-primary",
+    PENDING: "border-primary/30 bg-primary/15 text-primary",
+    REQUESTED: "border-primary/30 bg-primary/15 text-primary",
+    UNRECONCILED: "border-primary/30 bg-primary/15 text-primary",
+    DEFERRED: "border-primary/30 bg-primary/15 text-primary",
 
-    UNPAID: "bg-red-100 text-red-700 border-red-200",
-    FAILED: "bg-red-100 text-red-700 border-red-200",
-    REJECTED: "bg-red-100 text-red-700 border-red-200",
-    "NOT CLEARED": "bg-red-100 text-red-700 border-red-200",
-    DISPUTED: "bg-red-100 text-red-700 border-red-200",
+    UNPAID: "border-red-500/30 bg-red-500/15 text-red-300",
+    FAILED: "border-red-500/30 bg-red-500/15 text-red-300",
+    REJECTED: "border-red-500/30 bg-red-500/15 text-red-300",
+    "NOT CLEARED": "border-red-500/30 bg-red-500/15 text-red-300",
+    DISPUTED: "border-red-500/30 bg-red-500/15 text-red-300",
 
-    GRADUATED: "bg-blue-100 text-blue-700 border-blue-200",
-    INACTIVE: "bg-gray-100 text-gray-700 border-gray-200",
+    GRADUATED: "border-sky-500/30 bg-sky-500/15 text-sky-300",
+    INACTIVE: "border-border bg-muted text-muted-foreground",
   };
 
   return (

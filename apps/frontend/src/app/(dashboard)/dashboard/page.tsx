@@ -62,9 +62,47 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8">
+      <section className="surface-glass overflow-hidden rounded-[2rem] p-6 md:p-8">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <div className="mb-4 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+              Finance overview
+            </div>
+            <h1 className="headline-balance font-heading text-5xl leading-[0.95] tracking-[-0.05em]">
+              Revenue clarity for the entire institution.
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">
+              Track collections, debt, and clearance progress in one place with a calmer operational view.
+            </p>
+          </div>
+          <div className="surface-panel rounded-[1.75rem] p-5">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-primary" />
+              <h3 className="font-semibold">Monthly pulse</h3>
+            </div>
+            <div className="mt-6 flex h-44 items-end justify-between gap-2">
+              {[40, 70, 45, 90, 65, 80, 95].map((h, i) => (
+                <div
+                  key={i}
+                  className="w-full rounded-full bg-primary/15 p-1"
+                >
+                  <div
+                    className="w-full rounded-full bg-[linear-gradient(180deg,rgba(95,214,163,0.95),rgba(2,143,156,0.95))] transition-all"
+                    style={{ height: `${h}%` }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex justify-between text-[0.68rem] uppercase tracking-[0.16em] text-muted-foreground">
+              <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Financial Overview</h1>
-        <p className="text-muted-foreground">Real-time institution financial health monitoring</p>
+        <h2 className="font-heading text-3xl tracking-[-0.04em]">Financial Overview</h2>
+        <p className="mt-2 text-muted-foreground">Real-time institution financial health monitoring</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -97,39 +135,42 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="surface-panel rounded-[1.75rem] p-6">
+          <div className="mb-4 flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-primary" />
             <h3 className="font-semibold">Revenue Trend</h3>
           </div>
-          <div className="h-64 flex items-end justify-between gap-2">
-            {/* Mock Chart Bars */}
+          <div className="flex h-64 items-end justify-between gap-3">
             {[40, 70, 45, 90, 65, 80, 95].map((h, i) => (
-              <div
-                key={i}
-                className="w-full bg-primary/20 rounded-t-sm transition-all hover:bg-primary"
-                style={{ height: `${h}%` }}
-              />
+              <div key={i} className="flex w-full items-end rounded-full bg-primary/10 p-1">
+                <div
+                  className="w-full rounded-full bg-[linear-gradient(180deg,rgba(95,214,163,0.95),rgba(2,143,156,0.95))] transition-all"
+                  style={{ height: `${h}%` }}
+                />
+              </div>
             ))}
           </div>
-          <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+          <div className="mt-3 flex justify-between text-[0.68rem] uppercase tracking-[0.16em] text-muted-foreground">
             <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
           </div>
         </div>
 
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-          <h3 className="font-semibold mb-4">Quick Actions</h3>
+        <div className="surface-panel rounded-[1.75rem] p-6">
+          <div className="mb-4">
+            <h3 className="font-heading text-2xl tracking-[-0.03em]">Quick Actions</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Jump into the high-frequency admin workflows.</p>
+          </div>
           <div className="grid grid-cols-2 gap-3">
-            <Link href="/students/import" className="p-3 rounded-lg border hover:bg-slate-50 text-sm font-medium text-center transition-colors">
+            <Link href="/students/import" className="rounded-2xl border border-border/80 bg-background/25 p-4 text-left text-sm font-medium transition-colors hover:bg-muted/40">
               Import Students
             </Link>
-            <Link href="/fees/new" className="p-3 rounded-lg border hover:bg-slate-50 text-sm font-medium text-center transition-colors">
+            <Link href="/fees/new" className="rounded-2xl border border-border/80 bg-background/25 p-4 text-left text-sm font-medium transition-colors hover:bg-muted/40">
               Create Fee Template
             </Link>
-            <Link href="/debtors" className="p-3 rounded-lg border hover:bg-slate-50 text-sm font-medium text-center transition-colors">
+            <Link href="/debtors" className="rounded-2xl border border-border/80 bg-background/25 p-4 text-left text-sm font-medium transition-colors hover:bg-muted/40">
               View Debtors
             </Link>
-            <Link href="/clearance" className="p-3 rounded-lg border hover:bg-slate-50 text-sm font-medium text-center transition-colors">
+            <Link href="/clearance" className="rounded-2xl border border-border/80 bg-background/25 p-4 text-left text-sm font-medium transition-colors hover:bg-muted/40">
               Manage Clearance
             </Link>
           </div>

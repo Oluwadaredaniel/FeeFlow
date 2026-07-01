@@ -58,21 +58,21 @@ export default function ReceiptDetailPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Payment Receipt</h1>
-        <Button variant="outline" size="sm" className="gap-2" onClick={() => toast.info("Generating official PDF receipt...")}>
+      <div className="surface-glass flex items-center justify-between rounded-[2rem] p-6">
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">Payment Receipt</h1>
+        <Button variant="outline" size="sm" className="h-10 gap-2 rounded-xl px-4" onClick={() => toast.info("Generating official PDF receipt...")}>
           <Download className="h-4 w-4" /> Download PDF
         </Button>
       </div>
 
-      <Card className="border-2 border-slate-200 shadow-lg overflow-hidden">
-        <div className="bg-slate-50 border-b p-8 text-center">
+      <Card className="overflow-hidden border-2 border-border shadow-lg shadow-black/20">
+        <div className="border-b bg-muted/50 p-8 text-center">
           <div className="flex justify-center mb-4">
-            <div className="h-16 w-16 rounded-full bg-primary text-white flex items-center justify-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
               <Receipt className="h-8 w-8" />
             </div>
           </div>
-          <h2 className="text-2xl font-bold uppercase tracking-wide">Official Receipt</h2>
+          <h2 className="font-heading text-3xl uppercase tracking-wide">Official Receipt</h2>
           <p className="text-muted-foreground text-sm">FeeFlow Institutional Payment System</p>
         </div>
         <CardContent className="p-8 space-y-8">
@@ -97,7 +97,7 @@ export default function ReceiptDetailPage() {
               <div>
                 <p className="text-xs text-muted-foreground uppercase font-semibold">Status</p>
                 <div className="flex justify-end">
-                  <span className="text-sm font-bold text-green-600 flex items-center gap-1">
+                  <span className="flex items-center gap-1 text-sm font-bold text-emerald-400">
                     <CheckCircle2 className="h-3 w-3" /> SUCCESS
                   </span>
                 </div>

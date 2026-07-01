@@ -47,9 +47,12 @@ export default function ImportStudentsPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Import Students</h1>
-        <p className="text-muted-foreground">Batch upload students using a CSV file</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          Bulk onboarding
+        </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">Import Students</h1>
+        <p className="mt-2 text-muted-foreground">Batch upload students using a CSV file.</p>
       </div>
 
       <Card>
@@ -62,20 +65,20 @@ export default function ImportStudentsPage() {
         <CardContent className="space-y-6">
           <form onSubmit={handleUpload} className="space-y-6">
             <div className="flex items-center justify-center w-full">
-              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 border-slate-300 transition-colors">
+              <label className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-[1.5rem] border-2 border-dashed border-border bg-muted/35 transition-colors hover:bg-muted/50">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <Upload className="w-10 h-10 mb-3 text-slate-400" />
-                  <p className="mb-2 text-sm text-slate-500">
+                  <Upload className="w-10 h-10 mb-3 text-muted-foreground" />
+                  <p className="mb-2 text-sm text-muted-foreground">
                     <span className="font-semibold">Click to upload</span> or drag and drop
                   </p>
-                  <p className="text-xs text-slate-400">CSV (MAX. 10MB)</p>
+                  <p className="text-xs text-muted-foreground/80">CSV (MAX. 10MB)</p>
                 </div>
                 <input type="file" className="hidden" accept=".csv" onChange={handleFileChange} />
               </label>
             </div>
 
             {file && (
-              <div className="flex items-center gap-3 p-3 rounded-md bg-primary/5 border border-primary/20">
+              <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-3">
                 <FileText className="h-5 w-5 text-primary" />
                 <div className="flex-1 overflow-hidden">
                   <p className="text-sm font-medium truncate">{file.name}</p>
@@ -85,7 +88,7 @@ export default function ImportStudentsPage() {
               </div>
             )}
 
-            <Button type="submit" className="w-full" disabled={isLoading || !file}>
+            <Button type="submit" className="h-11 w-full rounded-xl" disabled={isLoading || !file}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Start Import
             </Button>
@@ -93,12 +96,12 @@ export default function ImportStudentsPage() {
         </CardContent>
       </Card>
 
-      <div className="p-4 rounded-lg bg-amber-50 border border-amber-200 flex gap-3">
-        <AlertCircle className="h-5 w-5 text-amber-600 shrink-0" />
-        <div className="text-sm text-amber-800 space-y-1">
+      <div className="flex gap-3 rounded-[1.5rem] border border-primary/25 bg-primary/10 p-5">
+        <AlertCircle className="h-5 w-5 shrink-0 text-primary" />
+        <div className="space-y-1 text-sm text-foreground/85">
           <p className="font-semibold">CSV Template Requirements:</p>
           <ul className="list-disc list-inside opacity-90">
-            <li>Columns: <code className="bg-amber-100 px-1 rounded">full_name, email, matric_no, department, level</code></li>
+            <li>Columns: <code className="rounded bg-background/80 px-1">full_name, email, matric_no, department, level</code></li>
             <li>Email must be a valid university email address.</li>
             <li>Level must be a numeric value (e.g., 100, 200).</li>
           </ul>

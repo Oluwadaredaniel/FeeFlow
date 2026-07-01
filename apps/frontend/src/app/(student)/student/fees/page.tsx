@@ -52,9 +52,12 @@ export default function StudentFeesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">My Fee Statement</h1>
-        <p className="text-muted-foreground">Track your payment progress and outstanding balances</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          Payment position
+        </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">My Fee Statement</h1>
+        <p className="mt-2 text-muted-foreground">Track your payment progress and outstanding balances.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -70,27 +73,27 @@ export default function StudentFeesPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Paid</CardTitle>
-            <Wallet className="h-4 w-4 text-green-600" />
+            <Wallet className="h-4 w-4 text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{formatNaira(totalPaid)}</div>
+            <div className="text-2xl font-bold text-emerald-400">{formatNaira(totalPaid)}</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Balance Due</CardTitle>
-            <AlertCircle className="h-4 w-4 text-red-600" />
+            <AlertCircle className="h-4 w-4 text-red-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{formatNaira(totalDue - totalPaid)}</div>
+            <div className="text-2xl font-bold text-red-400">{formatNaira(totalDue - totalPaid)}</div>
           </CardContent>
         </Card>
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Detailed Breakdown</h3>
+        <h3 className="font-heading text-2xl tracking-[-0.03em]">Detailed Breakdown</h3>
         {fees.length === 0 ? (
-          <div className="text-center py-12 border rounded-xl bg-white">
+          <div className="rounded-[1.5rem] border bg-card py-12 text-center">
             <p className="text-muted-foreground">No fees assigned to your account.</p>
           </div>
         ) : (

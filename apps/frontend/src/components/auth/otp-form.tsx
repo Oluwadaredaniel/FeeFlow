@@ -23,11 +23,14 @@ export function OtpForm({ title, description, onVerify, isLoading }: OtpFormProp
 
   return (
     <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold">{title}</h2>
-        <p className="text-sm text-muted-foreground">{description}</p>
+      <div className="space-y-2">
+        <div className="inline-flex rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary">
+          Verification
+        </div>
+        <h2 className="font-heading text-4xl tracking-[-0.04em]">{title}</h2>
+        <p className="text-sm leading-6 text-muted-foreground">{description}</p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="code">Verification Code</Label>
           <Input
@@ -36,11 +39,11 @@ export function OtpForm({ title, description, onVerify, isLoading }: OtpFormProp
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             maxLength={6}
-            className="text-center text-lg tracking-widest"
+            className="text-center text-xl tracking-[0.6em]"
             required
           />
         </div>
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="h-11 w-full rounded-xl" disabled={isLoading}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Verify & Sign In
         </Button>

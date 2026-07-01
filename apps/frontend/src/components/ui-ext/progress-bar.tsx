@@ -14,12 +14,12 @@ export function FeeProgressBar({ paid, due, className }: FeeProgressBarProps) {
   return (
     <div className={cn("space-y-1.5", className)}>
       <div className="flex justify-between text-xs font-medium">
-        <span className={isComplete ? "text-green-600" : "text-muted-foreground"}>
+        <span className={isComplete ? "text-emerald-300" : "text-muted-foreground"}>
           {isComplete ? "Fully Paid" : `${percentage}% Paid`}
         </span>
         <span className="text-muted-foreground">{percentage}%</span>
       </div>
-      <Progress value={percentage} className={cn("h-2", isComplete && "bg-green-100")} />
+      <Progress value={percentage} className={cn("h-2.5", isComplete && "bg-emerald-500/15")} />
     </div>
   );
 }

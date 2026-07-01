@@ -39,36 +39,39 @@ export default function StudentClearancePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Clearance Status</h1>
-        <p className="text-muted-foreground">Check if you have met all institutional requirements</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          Graduation readiness
+        </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">Clearance Status</h1>
+        <p className="mt-2 text-muted-foreground">Check if you have met all institutional requirements.</p>
       </div>
 
-      <Card className="text-center py-12 space-y-6">
+      <Card className="text-center py-12">
         <CardContent>
           <div className="flex justify-center mb-6">
             {status === true ? (
-              <div className="h-20 w-20 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+              <div className="flex h-24 w-24 items-center justify-center rounded-[2rem] border border-emerald-500/25 bg-emerald-500/15 text-emerald-300">
                 <CheckCircle2 className="h-12 w-12" />
               </div>
             ) : (
-              <div className="h-20 w-20 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+              <div className="flex h-24 w-24 items-center justify-center rounded-[2rem] border border-red-500/25 bg-red-500/15 text-red-300">
                 <XCircle className="h-12 w-12" />
               </div>
             )}
           </div>
 
-          <h2 className="text-2xl font-bold">
+          <h2 className="font-heading text-4xl tracking-[-0.04em]">
             {status ? "You are fully cleared!" : "Not Cleared"}
           </h2>
-          <p className="text-muted-foreground max-w-md mx-auto">
+          <p className="mx-auto mt-3 max-w-md text-muted-foreground">
             {status
               ? "All your financial obligations have been settled. You can now proceed with your graduation or deferment processes."
               : "You have outstanding balances or missing requirements. Please check your fee statement to resolve these issues."}
           </p>
 
           {status && (
-            <Button className="mt-6 gap-2" onClick={() => toast.info("Downloading clearance certificate...")}>
+            <Button className="mt-8 h-11 gap-2 rounded-xl px-4" onClick={() => toast.info("Downloading clearance certificate...")}>
               <Download className="h-4 w-4" /> Download Clearance Certificate
             </Button>
           )}

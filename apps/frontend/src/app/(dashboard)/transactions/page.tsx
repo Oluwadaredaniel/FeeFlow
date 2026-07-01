@@ -68,16 +68,19 @@ export default function TransactionsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="surface-glass flex flex-col gap-5 rounded-[2rem] p-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Transactions</h1>
-          <p className="text-muted-foreground">All institutional payment logs and reconciliation status</p>
+          <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+            Ledger
+          </div>
+          <h1 className="font-heading text-4xl tracking-[-0.05em]">Transactions</h1>
+          <p className="mt-2 max-w-2xl text-muted-foreground">All institutional payment logs and reconciliation status.</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="h-11 gap-2 rounded-xl px-4">
             <Filter className="h-4 w-4" /> Filter
           </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={() => toast.info("Exporting CSV...")}>
+          <Button variant="outline" size="sm" className="h-11 gap-2 rounded-xl px-4" onClick={() => toast.info("Exporting CSV...")}>
             <Download className="h-4 w-4" /> Export
           </Button>
         </div>

@@ -49,12 +49,15 @@ export default function NewFeePage() {
 
   return (
     <div className="max-w-2xl space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Create Fee Template</h1>
-        <p className="text-muted-foreground">Define a new payment requirement for a specific student level</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          New structure
+        </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">Create Fee Template</h1>
+        <p className="mt-2 text-muted-foreground">Define a new payment requirement for a specific student level.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-xl border shadow-sm">
+      <form onSubmit={handleSubmit} className="surface-panel space-y-6 rounded-[1.75rem] p-6">
         <div className="grid gap-4">
           <div className="space-y-2">
             <Label htmlFor="name">Fee Name</Label>
@@ -84,7 +87,7 @@ export default function NewFeePage() {
               <Label htmlFor="level">Target Level</Label>
               <select
                 id="level"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="flex h-11 w-full rounded-xl border border-input bg-input/40 px-3.5 py-2 text-sm text-foreground focus:border-ring focus:outline-none focus:ring-4 focus:ring-ring/20"
                 value={formData.assigned_to_level}
                 onChange={(e) => setFormData({ ...formData, assigned_to_level: e.target.value })}
               >
@@ -109,10 +112,10 @@ export default function NewFeePage() {
         </div>
 
         <div className="flex justify-end gap-3 pt-4">
-          <Button variant="ghost" type="button" onClick={() => router.back()}>
+          <Button variant="ghost" type="button" className="h-11 rounded-xl px-4" onClick={() => router.back()}>
             Cancel
           </Button>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" className="h-11 rounded-xl px-4" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Create Template
           </Button>

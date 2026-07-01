@@ -58,31 +58,34 @@ export default function StudentProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">My Profile</h1>
-        <p className="text-muted-foreground">Your academic and financial identity</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          Student profile
+        </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">My Profile</h1>
+        <p className="mt-2 text-muted-foreground">Your academic and financial identity.</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="md:col-span-1">
-          <CardContent className="pt-6 flex flex-col items-center text-center space-y-4">
-            <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+          <CardContent className="flex flex-col items-center space-y-5 pt-6 text-center">
+            <div className="flex h-28 w-28 items-center justify-center rounded-[2rem] border border-primary/20 bg-primary/10 text-primary">
               <User className="h-12 w-12" />
             </div>
             <div>
-              <h2 className="text-xl font-bold">{profile.full_name}</h2>
+              <h2 className="font-heading text-3xl tracking-[-0.03em]">{profile.full_name}</h2>
               <p className="text-sm text-muted-foreground">{profile.email}</p>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <div className="flex justify-between text-sm py-2 border-b">
+              <div className="flex justify-between border-b py-3 text-sm">
                 <span className="text-muted-foreground">Matric No:</span>
                 <span className="font-medium">{profile.matric_no}</span>
               </div>
-              <div className="flex justify-between text-sm py-2 border-b">
+              <div className="flex justify-between border-b py-3 text-sm">
                 <span className="text-muted-foreground">Department:</span>
                 <span className="font-medium">{profile.department}</span>
               </div>
-              <div className="flex justify-between text-sm py-2 border-b">
+              <div className="flex justify-between border-b py-3 text-sm">
                 <span className="text-muted-foreground">Level:</span>
                 <span className="font-medium">{profile.level}</span>
               </div>
@@ -131,17 +134,17 @@ export default function StudentProfilePage() {
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground">Total Paid</p>
-                <p className="text-lg font-bold text-green-600">{formatNaira(profile.total_paid)}</p>
+                <p className="text-lg font-bold text-emerald-400">{formatNaira(profile.total_paid)}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground">Outstanding</p>
-                <p className="text-lg font-bold text-red-600">{formatNaira(profile.total_owed - profile.total_paid)}</p>
+                <p className="text-lg font-bold text-red-400">{formatNaira(profile.total_owed - profile.total_paid)}</p>
               </div>
             </CardContent>
           </Card>
 
           <div className="flex justify-end">
-            <Button variant="outline" className="gap-2" onClick={() => toast.info("Generating PDF profile...")}>
+            <Button variant="outline" className="h-11 gap-2 rounded-xl px-4" onClick={() => toast.info("Generating PDF profile...")}>
               <Download className="h-4 w-4" /> Download Student ID
             </Button>
           </div>

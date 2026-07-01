@@ -45,7 +45,7 @@ export function DataTable<T>({ data, columns, onSearch, emptyState }: DataTableP
           />
         </div>
       )}
-      <div className="rounded-md border bg-white overflow-hidden">
+      <div className="surface-glass overflow-hidden rounded-[1.5rem]">
         <Table>
           <TableHeader>
             <TableRow>

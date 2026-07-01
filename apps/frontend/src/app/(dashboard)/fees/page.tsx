@@ -82,12 +82,15 @@ export default function FeesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="surface-glass flex flex-col gap-5 rounded-[2rem] p-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Fee Templates</h1>
-          <p className="text-muted-foreground">Define standard fee structures for students based on their level</p>
+          <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+            Fee architecture
+          </div>
+          <h1 className="font-heading text-4xl tracking-[-0.05em]">Fee Templates</h1>
+          <p className="mt-2 max-w-2xl text-muted-foreground">Define standard fee structures for students based on their level.</p>
         </div>
-        <Button asChild>
+        <Button className="h-11 rounded-xl" asChild>
           <Link href="/fees/new">
             <Plus className="mr-2 h-4 w-4" /> Create Fee
           </Link>

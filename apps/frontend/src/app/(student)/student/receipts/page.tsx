@@ -42,9 +42,12 @@ export default function StudentReceiptsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Payment Receipts</h1>
-        <p className="text-muted-foreground">Your complete history of successful payments</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          Payment proof
+        </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">Payment Receipts</h1>
+        <p className="mt-2 text-muted-foreground">Your complete history of successful payments.</p>
       </div>
 
       {isLoading ? (
@@ -54,7 +57,7 @@ export default function StudentReceiptsPage() {
       ) : (
         <div className="grid gap-4">
           {receipts.length === 0 ? (
-            <div className="text-center py-12 border rounded-xl bg-white">
+            <div className="rounded-[1.5rem] border bg-card py-12 text-center">
               <p className="text-muted-foreground">No payments found in your history.</p>
             </div>
           ) : (
@@ -63,13 +66,13 @@ export default function StudentReceiptsPage() {
                 <CardContent className="p-0">
                   <div className="flex flex-col md:flex-row items-center justify-between p-6 gap-4">
                     <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
                         <Receipt className="h-6 w-6" />
                       </div>
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
                           <span className="font-bold">{receipt.fee_name}</span>
-                          <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                          <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-xs font-medium text-emerald-300">
                             SUCCESS
                           </span>
                         </div>
@@ -83,7 +86,7 @@ export default function StudentReceiptsPage() {
                         <p className="text-xs text-muted-foreground">Amount Paid</p>
                         <p className="text-lg font-bold">{formatNaira(receipt.amount)}</p>
                       </div>
-                      <Button variant="outline" size="sm" className="gap-2" onClick={() => toast.info(`Generating receipt PDF for ${receipt.reference}...`)}>
+                      <Button variant="outline" size="sm" className="h-10 gap-2 rounded-xl px-4" onClick={() => toast.info(`Generating receipt PDF for ${receipt.reference}...`)}>
                         <Download className="h-4 w-4" /> PDF
                       </Button>
                     </div>

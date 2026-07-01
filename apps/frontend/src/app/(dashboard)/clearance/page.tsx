@@ -86,11 +86,12 @@ export default function ClearancePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Clearance Management</h1>
-          <p className="text-muted-foreground">Final sign-off for graduating or deferring students</p>
+      <div className="surface-glass rounded-[2rem] p-6">
+        <div className="mb-3 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          Final sign-off
         </div>
+        <h1 className="font-heading text-4xl tracking-[-0.05em]">Clearance Management</h1>
+        <p className="mt-2 max-w-2xl text-muted-foreground">Final sign-off for graduating or deferring students.</p>
       </div>
 
       {isLoading ? (

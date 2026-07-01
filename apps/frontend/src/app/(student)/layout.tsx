@@ -10,15 +10,19 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
 
   return (
     <RoleGuard role="STUDENT">
-      <div className="flex flex-col h-screen overflow-hidden bg-slate-50">
-        <header className="h-16 border-b bg-white px-6 flex items-center justify-between shrink-0">
+      <div className="min-h-screen bg-background px-4 py-4 md:px-6">
+        <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-6xl flex-col gap-4">
+          <header className="surface-glass flex shrink-0 items-center justify-between rounded-[1.75rem] px-6 py-4">
           <div className="flex items-center gap-4">
-            <span className="text-xl font-bold text-primary">FeeFlow</span>
-            <nav className="hidden md:flex items-center gap-6 ml-4 text-sm font-medium text-muted-foreground">
-              <Link href="/student/me" className="hover:text-foreground">My Account</Link>
-              <Link href="/student/fees" className="hover:text-foreground">My Fees</Link>
-              <Link href="/student/clearance" className="hover:text-foreground">Clearance</Link>
-              <Link href="/student/receipts" className="hover:text-foreground">Receipts</Link>
+            <div>
+              <span className="font-heading text-3xl font-medium tracking-[-0.03em] text-foreground">FeeFlow</span>
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Student workspace</p>
+            </div>
+            <nav className="ml-4 hidden items-center gap-2 text-sm font-medium text-muted-foreground md:flex">
+              <Link href="/student/me" className="rounded-full px-4 py-2 hover:bg-muted/40 hover:text-foreground">My Account</Link>
+              <Link href="/student/fees" className="rounded-full px-4 py-2 hover:bg-muted/40 hover:text-foreground">My Fees</Link>
+              <Link href="/student/clearance" className="rounded-full px-4 py-2 hover:bg-muted/40 hover:text-foreground">Clearance</Link>
+              <Link href="/student/receipts" className="rounded-full px-4 py-2 hover:bg-muted/40 hover:text-foreground">Receipts</Link>
             </nav>
           </div>
           <div className="flex items-center gap-4">
@@ -27,17 +31,18 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
                 clearSession();
                 router.replace("/student-login");
               }}
-              className="text-sm font-medium text-muted-foreground hover:text-destructive"
+              className="rounded-full border border-border/80 bg-background/30 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-destructive"
             >
               Logout
             </button>
           </div>
-        </header>
-        <main className="flex-1 overflow-y-auto p-6 md:p-8">
-          <div className="max-w-4xl mx-auto w-full">
-            {children}
-          </div>
-        </main>
+          </header>
+          <main className="surface-glass flex-1 rounded-[1.75rem] p-6 md:p-8">
+            <div className="mx-auto w-full max-w-4xl">
+              {children}
+            </div>
+          </main>
+        </div>
       </div>
     </RoleGuard>
   );
