@@ -31,6 +31,15 @@ export class StudentsController {
     return await this.studentsService.findAll(req.user.orgId, query);
   }
 
+  @Get('me/profile')
+  @ApiOperation({ summary: 'Get profile of the currently logged in student' })
+  async getMe(@Req() req: any) {
+    if (req.user.role !== 'STUDENT') {
+      throw new Error('Forbidden: Only students can access this endpoint');
+    }
+    return await this.studentsService.findOne(req.user.orgId, req.user.userId);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get detailed profile of a student' })
   async findOne(@Req() req: any, @Param('id') id: string) {

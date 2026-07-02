@@ -11,15 +11,15 @@ import { User, GraduationCap, CreditCard, Download, CheckCircle } from "lucide-r
 
 interface StudentProfile {
   id: string;
-  full_name: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  matric_no: string;
+  matric_number: string;
   department: string;
   level: number;
   status: "ACTIVE" | "DEFERRED" | "GRADUATED" | "INACTIVE";
-  is_cleared: boolean;
-  total_owed: number;
-  total_paid: number;
+  clearance_status?: Array<{ is_cleared: boolean }>;
+  student_fees?: Array<{ amount_due: number; amount_paid: number; amount_balance: number }>;
 }
 
 function getErrorMessage(error: unknown, fallback: string) {
@@ -33,7 +33,7 @@ export default function StudentProfilePage() {
   useEffect(() => {
     async function loadProfile() {
       try {
-        const data = await api.get<StudentProfile>("/me");
+        const data = await api.get<StudentProfile>("/api/students/me/profile");
         setProfile(data);
       } catch (error: unknown) {
         toast.error(getErrorMessage(error, "Failed to load profile"));
@@ -56,6 +56,10 @@ export default function StudentProfilePage() {
     return <div className="text-center py-12">Profile not found.</div>;
   }
 
+  const isCleared = profile.clearance_status?.[0]?.is_cleared || false;
+  const totalDue = profile.student_fees?.reduce((acc, f) => acc + f.amount_due, 0) || 0;
+  const totalPaid = profile.student_fees?.reduce((acc, f) => acc + f.amount_paid, 0) || 0;
+
   return (
     <div className="space-y-6">
       <div className="surface-glass rounded-[2rem] p-6">
@@ -73,13 +77,13 @@ export default function StudentProfilePage() {
               <User className="h-12 w-12" />
             </div>
             <div>
-              <h2 className="font-heading text-3xl tracking-[-0.03em]">{profile.full_name}</h2>
+              <h2 className="font-heading text-3xl tracking-[-0.03em]">{profile.first_name} {profile.last_name}</h2>
               <p className="text-sm text-muted-foreground">{profile.email}</p>
             </div>
             <div className="flex flex-col gap-2 w-full">
               <div className="flex justify-between border-b py-3 text-sm">
                 <span className="text-muted-foreground">Matric No:</span>
-                <span className="font-medium">{profile.matric_no}</span>
+                <span className="font-medium">{profile.matric_number}</span>
               </div>
               <div className="flex justify-between border-b py-3 text-sm">
                 <span className="text-muted-foreground">Department:</span>
@@ -116,7 +120,7 @@ export default function StudentProfilePage() {
               <CardContent>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Financials</span>
-                  <StatusBadge status={profile.is_cleared} />
+                  <StatusBadge status={isCleared ? "CLEARED" : "NOT CLEARED"} />
                 </div>
               </CardContent>
             </Card>
@@ -130,15 +134,15 @@ export default function StudentProfilePage() {
             <CardContent className="grid grid-cols-3 gap-4">
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground">Total Billed</p>
-                <p className="text-lg font-bold">{formatNaira(profile.total_owed)}</p>
+                <p className="text-lg font-bold">{formatNaira(totalDue)}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground">Total Paid</p>
-                <p className="text-lg font-bold text-emerald-400">{formatNaira(profile.total_paid)}</p>
+                <p className="text-lg font-bold text-emerald-400">{formatNaira(totalPaid)}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground">Outstanding</p>
-                <p className="text-lg font-bold text-red-400">{formatNaira(profile.total_owed - profile.total_paid)}</p>
+                <p className="text-lg font-bold text-red-400">{formatNaira(totalDue - totalPaid)}</p>
               </div>
             </CardContent>
           </Card>
