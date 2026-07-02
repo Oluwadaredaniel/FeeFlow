@@ -14,11 +14,20 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-interface DashboardStats {
-  total_students: number;
-  total_revenue: number;
-  total_debt: number;
-  clearance_rate: number;
+interface CollectionReport {
+  summary: {
+    total_revenue: number;
+    total_students: number;
+    students_cleared: number;
+    students_owing: number;
+    collection_rate: number;
+  };
+  by_fee_type: Array<{
+    fee_type: string;
+    amount_expected: number;
+    amount_collected: number;
+    collection_rate: number;
+  }>;
 }
 
 function getErrorMessage(error: unknown, fallback: string) {
@@ -26,15 +35,14 @@ function getErrorMessage(error: unknown, fallback: string) {
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [report, setReport] = useState<CollectionReport | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        // Using a generic stats endpoint as inferred from spec
-        const data = await api.get<DashboardStats>("/dashboard/stats");
-        setStats(data);
+        const data = await api.get<CollectionReport>("/api/reports/collection");
+        setReport(data);
       } catch (error: unknown) {
         toast.error(getErrorMessage(error, "Failed to load dashboard statistics"));
       } finally {
@@ -52,13 +60,16 @@ export default function AdminDashboard() {
     );
   }
 
-  if (!stats) {
+  if (!report) {
     return (
       <div className="text-center py-12">
         <p className="text-muted-foreground">No statistics available at this time.</p>
       </div>
     );
   }
+
+  const { summary, by_fee_type } = report;
+  const total_debt = by_fee_type.reduce((acc, f) => acc + (f.amount_expected - f.amount_collected), 0);
 
   return (
     <div className="space-y-8">
@@ -108,27 +119,27 @@ export default function AdminDashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Students"
-          value={stats.total_students.toLocaleString()}
+          value={summary.total_students.toLocaleString()}
           description="Enrolled active students"
           icon={Users}
         />
         <StatCard
           title="Total Revenue"
-          value={formatNaira(stats.total_revenue)}
+          value={formatNaira(summary.total_revenue)}
           description="Total payments reconciled"
           icon={Banknote}
           trend={{ value: "12%", isPositive: true }}
         />
         <StatCard
           title="Total Debt"
-          value={formatNaira(stats.total_debt)}
+          value={formatNaira(total_debt)}
           description="Outstanding student balances"
           icon={AlertCircle}
           trend={{ value: "4%", isPositive: false }}
         />
         <StatCard
           title="Clearance Rate"
-          value={`${stats.clearance_rate}%`}
+          value={`${Math.round(summary.collection_rate)}%`}
           description="Students cleared for session"
           icon={CheckCircle2}
         />
