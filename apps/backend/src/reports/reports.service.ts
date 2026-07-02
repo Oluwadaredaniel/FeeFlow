@@ -8,10 +8,6 @@ export class ReportsService {
   async getCollectionReport(orgId: string, query: any) {
     const { fiscal_year, department, format = 'JSON' } = query;
 
-    // This would typically involve several aggregate queries or a dedicated reporting table/view.
-    // For MVP, we'll calculate it from core tables.
-
-    // 1. Basic stats
     const { data: org } = await this.db.client.from('organizations').select('name').eq('id', orgId).single();
 
     const { data: students } = await this.db.client
@@ -33,10 +29,12 @@ export class ReportsService {
     const total_students = students?.length || 0;
     const students_cleared = students?.filter(s => s.clearance_status?.[0]?.is_cleared).length || 0;
 
-    // Summary by fee type
     const feeTypeMap = new Map();
-    fees?.forEach(f => {
-      const name = f.fee_types.name;
+    fees?.forEach((f: any) => {
+      // In Supabase, if fee_types is joined, it might return an array or object depending on schema
+      const feeTypeData = Array.isArray(f.fee_types) ? f.fee_types[0] : f.fee_types;
+      const name = feeTypeData?.name || 'Unknown Fee';
+
       if (!feeTypeMap.has(name)) {
         feeTypeMap.set(name, { expected: 0, collected: 0 });
       }
@@ -61,14 +59,12 @@ export class ReportsService {
         total_students,
         students_cleared,
         students_owing: total_students - students_cleared,
-        collection_rate: (students_cleared / total_students) * 100,
+        collection_rate: total_students > 0 ? (students_cleared / total_students) * 100 : 0,
       },
       by_fee_type,
-      // ... more breakdowns (department, monthly) could be added here
     };
 
     if (format === 'CSV') {
-      // Simple CSV conversion
       let csv = 'fee_type,amount_expected,amount_collected,collection_rate\n';
       by_fee_type.forEach(f => {
         csv += `${f.fee_type},${f.amount_expected},${f.amount_collected},${f.collection_rate}\n`;

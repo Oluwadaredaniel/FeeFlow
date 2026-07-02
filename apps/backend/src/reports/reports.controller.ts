@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseGuards, Req, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Response } from 'express';
+import type { Response } from 'express';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ReportsService } from './reports.service';

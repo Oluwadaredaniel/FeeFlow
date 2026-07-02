@@ -11,6 +11,7 @@ export function validateEnv(config: Record<string, unknown>) {
     missing.push('SUPABASE_SERVICE_ROLE_KEY');
   }
   if (!config.JWT_SECRET) missing.push('JWT_SECRET');
+  if (!config.RESEND_API_KEY) missing.push('RESEND_API_KEY');
 
   // Webhook secret isn't strictly required to boot, but warn — signatures are
   // skipped without it (see WebhooksController).
