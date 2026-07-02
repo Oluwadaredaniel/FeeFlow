@@ -11,12 +11,14 @@ import { Plus, ExternalLink, Users } from "lucide-react";
 
 interface Student {
   id: string;
-  full_name: string;
-  matric_no: string;
+  first_name: string;
+  last_name: string;
+  matric_number: string;
+  email: string;
   department: string;
   level: number;
   status: "ACTIVE" | "DEFERRED" | "GRADUATED" | "INACTIVE";
-  is_cleared: boolean;
+  clearance_status?: Array<{ is_cleared: boolean }>;
 }
 
 function getErrorMessage(error: unknown, fallback: string) {
@@ -29,7 +31,7 @@ export default function StudentsPage() {
 
   const fetchStudents = async () => {
     try {
-      const data = await api.get<Student[]>("/students");
+      const data = await api.get<Student[]>("/api/students");
       setStudents(data);
     } catch (error: unknown) {
       toast.error(getErrorMessage(error, "Failed to load students"));
@@ -46,7 +48,7 @@ export default function StudentsPage() {
 
   const handleSearch = async (query: string) => {
     try {
-      const data = await api.get<Student[]>(`/students?search=${encodeURIComponent(query)}`);
+      const data = await api.get<Student[]>(`/api/students?search=${encodeURIComponent(query)}`);
       setStudents(data);
     } catch (error: unknown) {
       toast.error(getErrorMessage(error, "Search failed"));
@@ -56,14 +58,17 @@ export default function StudentsPage() {
   const columns = [
     { header: "Student", accessor: (s: Student) => (
       <div className="flex flex-col">
-        <span className="font-medium">{s.full_name}</span>
-        <span className="text-xs text-muted-foreground">{s.matric_no}</span>
+        <span className="font-medium">{s.first_name} {s.last_name}</span>
+        <span className="text-xs text-muted-foreground">{s.matric_number}</span>
       </div>
     )},
     { header: "Department", accessor: "department" },
     { header: "Level", accessor: (s: Student) => s.level },
     { header: "Status", accessor: (s: Student) => <StatusBadge status={s.status} /> },
-    { header: "Cleared", accessor: (s: Student) => <StatusBadge status={s.is_cleared} /> },
+    { header: "Cleared", accessor: (s: Student) => {
+      const isCleared = s.clearance_status?.[0]?.is_cleared || false;
+      return <StatusBadge status={isCleared ? "CLEARED" : "NOT CLEARED"} />;
+    }},
     {
       header: "Action",
       accessor: (s: Student) => (
